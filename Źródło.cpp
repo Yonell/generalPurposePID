@@ -25,10 +25,7 @@ float PIDcontroller(
     float& pastError, //Last-iteration error
     float desiredValue, //Set-point
     float realValue, //Real-world filtered data
-    float& pastErrorSum, //Sum of the errors
-    float sampleFrequency,
-    bool& IntegralClampingRequestOrSgnMatchDetected,
-    float velocity)
+    float& pastErrorSum) //Sum of the errors
 {
     float P, I, D;
     float current_error = realValue - desiredValue;
@@ -52,19 +49,16 @@ float PIDcontroller(
     pastErrorSum = MinMax(pastErrorSum, -100 / Ki, 100 / Ki);
 
     return real_return;
-
 }
 
 
 int main()
 {
-    float past_error = 0, integral = 0;
-    float the_value = -60;
-    bool did_it_happen = true;
+    float past_error = -120, errorSum = 0, the_value = -60;
     float velocity = 0;
     for (int i = 0; i < 500; i++) {
         /*velocity += -5;
-        velocity += 0.1 * PIDcontroller(1.5, 0.5, 2, past_error, 60, the_value, integral, 250, did_it_happen, velocity);
+        velocity += 0.1 * PIDcontroller(1.5, 0.5, 2, past_error, 60, the_value, errorSum);
         the_value += velocity;*/
     }
     for (int i = 0; i < 198; i++) {
@@ -72,7 +66,7 @@ int main()
         std::cout << the_value << std::endl;
 
         velocity += -7;
-        velocity += 0.3 * PIDcontroller(1.1, 0.5, 4, past_error, 60, the_value, integral, 250, did_it_happen, velocity);
+        velocity += 0.3 * PIDcontroller(1.1, 0.5, 4, past_error, 60, the_value, errorSum);
 
         the_value += velocity;
 
