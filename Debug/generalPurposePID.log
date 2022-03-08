@@ -1,4 +1,0 @@
-﻿  Źródło.cpp
-C:\Users\fpfpf\OneDrive\Pulpit\Infa\generalPurposePID\Źródło.cpp(75,119): warning C4305: "argument": obcięcie z "double" do "float"
-C:\Users\fpfpf\OneDrive\Pulpit\Infa\generalPurposePID\Źródło.cpp(75,120): warning C4244: "+=": konwersja z "double" do "float", możliwa utrata danych
-  generalPurposePID.vcxproj -> C:\Users\fpfpf\OneDrive\Pulpit\Infa\generalPurposePID\Debug\generalPurposePID.exe
