@@ -25,6 +25,7 @@ float PIDcontroller(
     float& pastError, //Last-iteration error
     float desiredValue, //Set-point
     float realValue, //Real-world filtered data
+    float IntegralClipping, //How high can I be?
     float& pastErrorSum) //Sum of the errors
 {
     float P, I, D;
@@ -46,7 +47,7 @@ float PIDcontroller(
 
     pastError = current_error;
     pastErrorSum = pastErrorSum + (current_error / 4);
-    pastErrorSum = MinMax(pastErrorSum, -100 / Ki, 100 / Ki);
+    pastErrorSum = MinMax(pastErrorSum, -IntegralClipping / Ki, IntegralClipping / Ki);
 
     return real_return;
 }
@@ -54,19 +55,25 @@ float PIDcontroller(
 
 int main()
 {
-    float past_error = -120, errorSum = 0, the_value = -60;
+    float past_error = -120, errorSum = 0, the_value = -60, desired_value = 60;
     float velocity = 0;
+    float g = -7;
     for (int i = 0; i < 500; i++) {
-        /*velocity += -5;
-        velocity += 0.1 * PIDcontroller(1.5, 0.5, 2, past_error, 60, the_value, errorSum);
-        the_value += velocity;*/
+        //velocity += g;
+        //velocity += 0.3 * PIDcontroller(1.1, 0.5, 5, past_error, desired_value, the_value, 100, errorSum);
+        the_value += velocity;
     }
     for (int i = 0; i < 198; i++) {
 
         std::cout << the_value << std::endl;
 
-        velocity += -7;
-        velocity += 0.3 * PIDcontroller(1.1, 0.5, 4, past_error, 60, the_value, errorSum);
+        if (i == 30)
+        {
+            the_value += 0;
+        }
+
+        velocity += g;
+        velocity += 0.3 * PIDcontroller(1.1, 0.5, 5, past_error, desired_value, the_value, 100, errorSum);
 
         the_value += velocity;
 
